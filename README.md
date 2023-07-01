@@ -1,4 +1,4 @@
-# airo2_assignment_2
+# Artificial intelligence for robotics 2 | Assignment 2
 This assignment focuses on developing an intelligent system for task and motion planning in a 2D environment. The objective is to enable a robot (R) to collect assignment reports from four regions and deliver them to a submission desk while minimizing motion costs. The environment consists of a 6m x 6m space, with each region assigned a waypoint. Randomly sampled waypoints are interconnected to create a roadmap. The robot's path is determined by the Euclidean distance between waypoints. It means that if the robot reaches the corresponding waypoint location of the region that region will be considered as being visited. The entire project can be found in the attached Zip.file
 
 ![Robot](https://github.com/AichaAbbad/airo2_assignment_2/blob/main/Map/robot_map.jpeg)
@@ -24,3 +24,9 @@ The poptf repository : https://github.com/popftif/popf-tif
 The docker image given by Dr.Antony Thomas : https://hub.docker.com/r/hypothe/ai4ro2_2
 
 The <random> library from c++ : https://cplusplus.com/reference/random/
+
+## Students
+Aicha Manar ABBAD - s5565902
+Ines HAOUALA - s5483776
+Roumaissa BENKREDDA - s5434673
+Karim TRIKI - s5528602
