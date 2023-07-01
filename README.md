@@ -1,7 +1,7 @@
 # airo2_assignment_2
 
 
-#
+# Description
 The first step in running the project successfully is to install the popf-tif planner (which can be found in this [repository](https://github.com/popftif/popf-tif )).
 
 If you use the docker ubuntu image, take in mind that the planner is based on the Ubuntu-22.04 Docker Official Image, which lacks a graphical interface.
@@ -17,4 +17,5 @@ The visits_domain folder contains a PDDL domain as well as issue files, whereas 
 
 ## Refrences used
 The poptf repository : https://github.com/popftif/popf-tif 
+
 The docker image given by Dr.Antony Thomas : https://hub.docker.com/r/hypothe/ai4ro2_2
