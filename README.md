@@ -23,7 +23,7 @@ The poptf repository : https://github.com/popftif/popf-tif
 
 The docker image given by Dr.Antony Thomas : https://hub.docker.com/r/hypothe/ai4ro2_2
 
-The <random> library from c++ : https://cplusplus.com/reference/random/
+The "random" library from c++ : https://cplusplus.com/reference/random/
 
 ## Students
 Aicha Manar ABBAD - s5565902
