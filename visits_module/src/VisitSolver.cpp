@@ -229,21 +229,25 @@ fggy<n
    
  }
  */
- // ------ Additional Functions ------ //
+// ------ Additional Functions ------ //
  
  // LOCALIZE FUNCTION //
+  // LOCALIZE FUNCTION //
+ // This function calculates the shortest distance between two waypoints and returns the distance.
+// It uses Single source shortest path's algorithm to find the shortest path.
  double VisitSolver::localize(string from, string to){
-    
+    // Extract the waypoint numbers from the input strings       
     std::string number1 = from.substr(1);
     std::string number2 = to.substr(1);
     int n1 = 0;
     int n2 = 0;
+    // Convert the extracted numbers from string to integer
     for(char num1 : number1){
         if (std::isdigit(num1)) {
             n1 = n1 * 10 + (num1 - '0');
         }
         else{
-          cout << "error"<<endl;
+          cout << "error"<<endl;// Return an error
         }
     }
     for(char num2 : number2){
@@ -251,16 +255,16 @@ fggy<n
             n2 = n2 * 10 + (num2 - '0');
         }
         else{
-          cout<<"error"<<endl;
+          cout<<"error"<<endl;// Return an error
         }
     }
     
-    int start = n1;
-    int target = n2;
+    int start = n1;// Starting waypoint index
+    int target = n2;// Target waypoint index
     
-    bool visited_nodes_array[30] = {};
-    double dists[30] = {0};
-    
+    bool visited_nodes_array[30] = {}; // Array to keep track of visited nodes
+    double dists[30] = {0}; // Array to store the distance from the starting node
+      // Initialize the distance array    
     for(int index = 0; index < 30; index++){
         if(index == start){
             dists[index] = 0;
@@ -270,7 +274,7 @@ fggy<n
             dists[index] = 100000; // set it to infinity
         }
     }
-    // Implementing Djikstra algoritm to compute the cost
+    // Implementing Single Source Shortest Path algoritm to compute the cost
     for(int visited_vertices = 1; visited_vertices < 30; visited_vertices++){
         // FIND THE NEAREST UNVISITED NODE //
         int min_d = INT_MAX;
@@ -278,24 +282,25 @@ fggy<n
         for(int s = 0; s < 30; s++){
             if(!visited_nodes_array[s] && dists[s] < min_d){
                 min_d = dists[s];
-                min = s;
+                min = s;// Store the index of the nearest unvisited node
             }
         }
-        visited_nodes_array[min] = true;
+        visited_nodes_array[min] = true; // Mark the nearest node as visited
         
         for(int y = 0; y < 30; y++){
             if(cost_m_adj[min][y] != 0 && !visited_nodes_array[y] && dists[min] != INT_MAX && dists[min] + cost_m[min][y] < dists[y]) {
-                dists[y] = dists[min] + cost_m[min][y];
+                dists[y] = dists[min] + cost_m[min][y]; // Update the distance array
             }
         }
-        return dists[target];
+        return dists[target]; // Return the shortest distance between the waypoints
     }
  }
  
  // GENERATE RANDOM WAYPOINTS //
+ // This function generates random waypoints and saves them to a file.
  
  void VisitSolver::generate_rnd_wyp(string wyp){
-    float waypoints[30][3] ;// (x,y,theta) for 24 sample waypoint
+    float waypoints[30][3] ;// (x,y,theta) for 24 random sample waypoint + 6 fixed waypoints
     ofstream waypoint_file; // openning the waypoints file
     waypoint_file.open(wyp, ios_base::trunc);
     
@@ -317,7 +322,7 @@ fggy<n
       waypoint_file << "wp3[-2.75,-2.75,3.14]" <<endl;
       waypoint_file << "wp4[2.75,-2.75,-1.57]" <<endl;
 
-      // Traget waypoint
+      // Target waypoint
       waypoint_file << "wp5[3,0,0]" <<endl;
 
       random_device random;
@@ -337,34 +342,40 @@ fggy<n
  }
  
  // FIND MIN IN "cost_array"
+ // This function finds the minimum element in the "cost_array" and returns its index.
  double VisitSolver::min_elem(){
     int m = cost_array[0];
     int i = 0;
     for (int j = 0; j < 30; j++){
         if(cost_array[j] < m){
-            i = j;
-            m = cost_array[j];
+            i = j;// Store the index of the minimum element
+            m = cost_array[j]; // Update the minimum value
         }
     }
-    cost_array[i] = 100.0;
-    return i;
+    cost_array[i] = 100.0;// Set the minimum element to a large value to mark it as visited
+    return i;// Return the index of the minimum element
  }
  
+// ECLEDIAN DISTANCE CALCULATION
+// This function calculates the Euclidean distance between two waypoints and returns the distance.
  double VisitSolver::ecldn_dist(string from, string to){
     map <string, string> regions;
+    // Creating a map of regions with corresponding waypoints
     for(int l = 0; l < 30; l++) {
       regions[region[l]] = wp[l];
     }
+    // Extracting coordinates of the 'from' waypoint
     double x_1 = waypoint[regions[from]].at(0);
     double y_1 = waypoint[regions[from]].at(1);
-    
+    // Extracting coordinates of the 'to' waypoint       
     double x_2 = waypoint[regions[to]].at(0);
     double y_2 = waypoint[regions[to]].at(1);
-    
+    // Calculating the Euclidean distance using the coordinates      
     distance = sqrt(pow((x_2-x_1),2) + pow((y_2-y_1),2));
-    return distance;
+    return distance; // Return the Euclidean distance
  }
-
+// MY MAP GENERATION
+// This function generates the map with connections between waypoints.
 void VisitSolver::my_map(){
     int min;
     int maxWaypoints = 30;
@@ -377,21 +388,21 @@ void VisitSolver::my_map(){
             if (i != j){
               string current_node = "r" + to_string(i);
               string next_node = "r" + to_string(j);
-              cost_m[i][j] = ecldn_dist(current_node,next_node);
+              cost_m[i][j] = ecldn_dist(current_node,next_node);// Calculate the Euclidean distance between waypoints
               cost_array[j] = cost_m[i][j]; //used to find mmin dist
             }
             else{
-              cost_m[i][j] = 10000.0;
+              cost_m[i][j] = 10000.0; // Set the distance to a large value for self-connections
               cost_array[j] = cost_m[i][j];
             }
         }
         while(links[i] < maxConnections){
           if(f < maxWaypoints){
-            min = min_elem();
+            min = min_elem();// Find the minimum distance index
             while(links[min] < maxConnections){
-              cost_m_adj[i][min] = 1;
+              cost_m_adj[i][min] = 1; // Set the connection between waypoints
               cost_m_adj[min][i] = 1;
-              links[i]++;
+              links[i]++; // Increment the connection count
               links[min]++;
             }
             f++;  
@@ -400,3 +411,4 @@ void VisitSolver::my_map(){
         }
       }
   }
+
