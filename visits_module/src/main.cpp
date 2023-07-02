@@ -6,24 +6,25 @@
 
 using namespace std;
 
-
-
 int main(int argc, char **argv) {
-
+    // Create an instance of VisitSolver
     VisitSolver visitExample;
     string problem;
-    
+    // Check the command line arguments    
     if (argc > 2){
-        problem = argv[1];
+        problem = argv[1];// Store the problem argument
     }else{
         cout << "Usage:\n"
         << argv[0] << " problem parameters plan" << endl;
         return 1;
     }
     string parameters[] = {0};
+    // Load the solver with parameters
     visitExample.loadSolver(parameters,1);
+    // Create a map for the initial state
     map<string,double> initialState;
 
+    // Set initial state fluents
     initialState["(act-cost)"] = 0;
     initialState["(dummy)"] = 0;
 
